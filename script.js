@@ -57,7 +57,7 @@
             Array.from(dropdowns).forEach((dropdown) => {
                 const isInsideButtonGroup = dropdown.parentElement.className.includes("input-group"); //NH_TODO: Find out why this does not work
                 console.log("Inside button group", isInsideButtonGroup);
-                if (!isInsideButtonGroup) dropdowns.select2();
+                if (!isInsideButtonGroup) $(dropdown).select2();
             });
         }
 
@@ -78,24 +78,31 @@
         console.log("jQuery", window.jQuery);
         console.log("JQuery loaded");
         convertNormalDropdownsToSelect2();
-        window.jQuery(".segment-builder-embed").find(".add-button").on("click", convertNormalDropdownsToSelect2);
-        setInterval(() => {
-            convertNormalDropdownsToSelect2();
-        }, 1000);
 
         loadCSS("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css");
         createCSS(".select2-container--default .select2-results > .select2-results__options {	max-height: 55vh; }");
 
         setInterval(() => {
-            const dropdowns = window.jQuery(".segment-builder-embed").find("select.select2-hidden-accessible");
-            Array.from(dropdowns).forEach((dropdown) => {
-                if (!elementHasEventListenerForEvent(dropdown, "select2:select")) {
-                    window.jQuery(dropdown).on("select2:select", function (e) {
-                        console.log("Selected", e);
-                        e.currentTarget.dispatchEvent(new Event("change"));
-                    });
-                    console.log("Added event listener for select2:select event to dropdown", dropdown)
-                }
+          const dropdowns = window
+            .jQuery(".segment-builder-embed")
+            .find("select.select2-hidden-accessible");
+          Array.from(dropdowns).forEach((dropdown) => {
+            if (!elementHasEventListenerForEvent(dropdown, "select2:select")) {
+              window.jQuery(dropdown).on("select2:select", function (e) {
+                console.log("Selected", e);
+                e.currentTarget.dispatchEvent(new Event("change"));
+              });
+              console.log(
+                "Added event listener for select2:select event to dropdown",
+                dropdown
+              );
+            }
+          });
+        }, 1000);
+        setInterval(() => {
+            const addButtons = window.jQuery(".segment-builder-embed").find(".add-button");
+            Array.from(addButtons).forEach((addButton) => {
+                addButton.onclick = convertNormalDropdownsToSelect2;
             });
         }, 1000);
     }, 1000);
