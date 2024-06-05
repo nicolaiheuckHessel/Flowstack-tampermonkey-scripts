@@ -3,7 +3,7 @@
 // @namespace    https://app.flowstack.com
 // @version      0.1
 // @description  Add search functionality to flowstack dropdowns
-// @author       You
+// @author       Nicolai Heuck
 // @match        https://app.flowstack.com/profiles*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=app.flowstack.com
 // @grant        none
